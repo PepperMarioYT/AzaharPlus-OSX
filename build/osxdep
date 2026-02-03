@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -e
+
+# Make sure Homebrew exists
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew is required. Install from https://brew.sh"
+  exit 1
+fi
+
+brew update
+
+brew install \
+  cmake \
+  ninja \
+  llvm \
+  sdl2 \
+  boost \
+  fmt \
+  ffmpeg \
+  openssl@3 \
+  qt@6 \
+  qt6-multimedia
+
+echo "✅ macOS dependencies installed"
