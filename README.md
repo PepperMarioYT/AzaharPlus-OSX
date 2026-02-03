@@ -16,9 +16,9 @@ The Azahar logo is the property of PabloMK7 and angyartanddraw
 # Installation
 
 ### OSX
-1. Go to releases
-2. Pick the DMG
-3. Drag it to applications
+1. Go to releases.
+2. Pick the DMG.
+3. Drag it to applications.
 4. Gatekeeper will block you, press Open anyways.
 
 ### Intel
