@@ -30,7 +30,7 @@ Memory: 2GB of RAM. 4GB is recommended
 ```
 ### Apple Silicon
 ```
-Operating System: macOS Big Sur
+Operating System: macOS Big Sur or later
 CPU: Any M-Series chip
 GPU: Any M-series chip
 Memory: 2GB of RAM. 4GB is recommended
