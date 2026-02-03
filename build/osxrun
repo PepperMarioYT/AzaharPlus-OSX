@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -e
+
+# Optional arguments to pass to AzaharPlus
+ARGS="$@"
+
+# Path to the Release binary (built with osxbuild)
+BINARY="build/bin/Release/azahar"
+
+# Check if we have a .app bundle instead
+APP_BUNDLE="azaharplus-0.1-macos/AzaharPlus.app"
+if [[ -d "$APP_BUNDLE" ]]; then
+    echo "Running AzaharPlus from .app bundle..."
+    # macOS .app executable path
+    BINARY="$APP_BUNDLE/Contents/MacOS/AzaharPlus"
+fi
+
+# Check binary exists
+if [[ ! -f "$BINARY" ]]; then
+    echo "Error: Binary not found at $BINARY"
+    exit 1
+fi
+
+# Run the binary with any passed arguments
+echo "Launching AzaharPlus..."
+"$BINARY" $ARGS
