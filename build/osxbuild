@@ -1,0 +1,2 @@
+ninja
+strip -x bin/Release/azahar
