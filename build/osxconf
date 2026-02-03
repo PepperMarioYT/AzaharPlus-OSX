@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+
+# Toolchain (macOS already uses clang, but keep explicit like Linux)
+export EXTRA_CMAKE_FLAGS=(
+  -DCMAKE_C_COMPILER=clang
+  -DCMAKE_CXX_COMPILER=clang++
+)
+
+# macOS does NOT use Wayland / platform plugins
+unset EXTRA_QT_PLUGINS
+unset EXTRA_PLATFORM_PLUGINS
+
+# Clean build directory (same behavior as Linux)
+git clean -f -x -d -q
+
+mkdir -p build
+cd build
+
+cmake .. \
+  -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DENABLE_QT_TRANSLATION=ON \
+  -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" \
+  "${EXTRA_CMAKE_FLAGS[@]}"
