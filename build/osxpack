@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -e
+
+VERSION=${1:-"0.1"}   # pass version as first argument, default 0.1
+BUILD_DIR="build"
+BINARY="$BUILD_DIR/bin/Release/azahar"
+APP_NAME="AzaharPlus"
+APP_BUNDLE="${APP_NAME}.app"
+
+# 1️⃣ Clean previous bundle / DMG
+rm -rf "$APP_BUNDLE"
+rm -f "${APP_NAME}-${VERSION}-macos.dmg"
+RELEASE_DIR="azaharplus-${VERSION}-macos"
+rm -rf "$RELEASE_DIR"
+mkdir -p "$RELEASE_DIR"
+
+# 2️⃣ Create .app bundle
+mkdir -p "$APP_BUNDLE/Contents/"{MacOS,Resources,Frameworks}
+cp "$BINARY" "$APP_BUNDLE/Contents/MacOS/"
+
+# 3️⃣ Deploy Qt frameworks
+if ! command -v macdeployqt >/dev/null; then
+    echo "macdeployqt not found. Make sure Qt is installed and in PATH."
+    exit 1
+fi
+macdeployqt "$APP_BUNDLE" -verbose=1
+
+# 4️⃣ Copy license/logo
+cp ../the_azahar_logo_is_the_property_of_PabloMK7_and_angyartanddraw.txt \
+   "$APP_BUNDLE/Contents/Resources/"
+
+# 5️⃣ Move .app to release dir
+mv "$APP_BUNDLE" "$RELEASE_DIR/"
+
+# 6️⃣ Create DMG
+DMG_NAME="${APP_NAME}-${VERSION}-macos.dmg"
+hdiutil create -volname "$APP_NAME" \
+               -srcfolder "$RELEASE_DIR" \
+               -ov -format UDZO \
+               "$DMG_NAME"
+
+echo "✅ DMG created: $DMG_NAME"
